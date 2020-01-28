@@ -123,16 +123,6 @@ export default class ReactForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    let $form = ReactDOM.findDOMNode(this.refs.form);
-    let errors = this.validateForm();
-
-    // Publish errors, if any.
-    this.emitter.emit('formValidation', errors);
-
-    // Only submit if there are no errors.
-    if (errors.length < 1) {
-      $form.submit();
-    }
   }
 
   validateForm() {
@@ -248,10 +238,16 @@ export default class ReactForm extends React.Component {
             {items}
             <div className='btn-toolbar'>
               { !this.props.hide_actions &&
-                <input type='submit' className='btn btn-school btn-big btn-agree' value={actionName} />
-              }
-              { !this.props.hide_actions && this.props.back_action &&
-                <a href={this.props.back_action} className='btn btn-default btn-cancel btn-big'>{backName}</a>
+                <input
+                  className='btn btn-school btn-big btn-agree'
+                  style={{
+                    border: '1px solid grey',
+                    float: 'right',
+                    marginRight: '10px'
+                  }}
+                  type='submit'
+                  value={actionName}
+                />
               }
             </div>
           </form>
