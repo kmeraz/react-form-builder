@@ -1,7 +1,6 @@
 /**
   * <Form />
   */
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {EventEmitter} from 'fbemitter';
@@ -9,8 +8,9 @@ import FormValidator from './form-validator';
 import {Header,Paragraph,Label,LineBreak,TextInput,NumberInput,TextArea,Dropdown,Image,Checkboxes,DatePicker,RadioButtons,Rating,Tags,Signature,HyperLink,Download,Camera,Range} from './form-elements';
 import moment from 'moment';
 
-export default class ReactForm extends React.Component {
+import { SUBMIT_URL } from '../config-local';
 
+export default class ReactForm extends React.Component {
   constructor(props) {
     super(props);
     this.emitter = new EventEmitter();
@@ -131,7 +131,13 @@ export default class ReactForm extends React.Component {
 
     // Only submit if there are no errors.
     if (errors.length < 1) {
-      $form.submit();
+      const data = $($form).serializeArray();
+      $.ajax({
+        type: "POST",
+        url: SUBMIT_URL,
+        data: JSON.stringify(data),
+        contentType: "application/json"
+      });
     }
   }
 
@@ -173,7 +179,8 @@ export default class ReactForm extends React.Component {
       }
     });
 
-    let items = data_items.map( item => {
+    let items = data_items.map(item => {
+      item.field_name = $(item.label).text();
       switch (item.element) {
         case 'Header':
           return <Header mutable={true} key={`form_${item.id}`} data={item} />
@@ -231,14 +238,14 @@ export default class ReactForm extends React.Component {
     }
 
     let actionName = (this.props.action_name) ? this.props.action_name : 'Submit';
-    let backName = (this.props.back_name) ? this.props.back_name : 'Cancel';
 
     return (
       <div>
         <FormValidator emitter={this.emitter} />
         <div className='react-form-builder-form'>
-          <form encType='multipart/form-data' ref='form' action={this.props.form_action} onSubmit={this.handleSubmit.bind(this)} method={this.props.form_method}>
-            { this.props.authenticity_token &&
+          <form ref='form' onSubmit={this.handleSubmit.bind(this)}>
+            {
+              this.props.authenticity_token &&
               <div style={formTokenStyle}>
                 <input name='utf8' type='hidden' value='&#x2713;' />
                 <input name='authenticity_token' type='hidden' value={this.props.authenticity_token} />

@@ -1,5 +1,5 @@
-import React from "react";
 import ElementStore from './src/stores/ElementStore';
+import React from "react";
 import ReactFormGenerator from './src/form';
 import { SUBMIT_URL } from './config-local';
 

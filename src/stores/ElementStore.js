@@ -50,6 +50,7 @@ var ElementStore = Reflux.createStore({
   },
 
   save: function() {
+    return;
     if(_saveUrl) {
       $.ajax({
         type: 'POST',

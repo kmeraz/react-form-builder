@@ -1,14 +1,12 @@
 /**
   * <Toolbar />
   */
-
 import React from 'react';
 import ToolbarItem from './toolbar-item';
 import ID from './UUID';
 import ElementActions from './actions/ElementActions';
 
 export default class Toolbar extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -214,7 +212,6 @@ export default class Toolbar extends React.Component {
   }
 
   _onClick(item) {
-
     var elementOptions = {
       id: ID.uuid(),
       element: item.key,
