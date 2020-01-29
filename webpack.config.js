@@ -1,11 +1,11 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 module.exports = {
   entry: ["webpack/hot/dev-server", "./app.js"],
-
   output: {
     filename: "app.js",
     path: __dirname + "/build",
   },
-
   module: {
     loaders: [
       {
@@ -24,5 +24,13 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js', '.json', '.jsx', '.css', '.scss']
-  }
+  },
+  plugins: [
+    new CopyWebpackPlugin([
+      {
+        from: './src/assets',
+        to: 'assets'
+      }
+    ])
+  ]
 }
