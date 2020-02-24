@@ -197,8 +197,6 @@ export default class FormElementsEdit extends React.Component {
           )
           : (<div/>)
         }
-
-
         <div className="form-group">
           <label className="control-label">Print Options</label>
           <div className="checkbox">
@@ -208,7 +206,6 @@ export default class FormElementsEdit extends React.Component {
             </label>
           </div>
         </div>
-
         <div className="form-group">
           <label className="control-label">Alternate/Signature Page</label>
           <div className="checkbox">
@@ -218,7 +215,6 @@ export default class FormElementsEdit extends React.Component {
             </label>
           </div>
         </div>
-
         { this.props.element.hasOwnProperty('step') &&
           <div className="form-group">
             <div className="form-group-range">

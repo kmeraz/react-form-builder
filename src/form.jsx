@@ -7,12 +7,12 @@ import {EventEmitter} from 'fbemitter';
 import FormValidator from './form-validator';
 import {Header,Paragraph,Label,LineBreak,TextInput,NumberInput,TextArea,Dropdown,Image,Checkboxes,DatePicker,RadioButtons,Rating,Tags,Signature,HyperLink,Download,Camera,Range} from './form-elements';
 import moment from 'moment';
-
 import { SUBMIT_URL } from '../config-local';
 
 export default class ReactForm extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
+
     this.emitter = new EventEmitter();
   }
 
@@ -122,7 +122,6 @@ export default class ReactForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-
     let $form = ReactDOM.findDOMNode(this.refs.form);
     let errors = this.validateForm();
 
@@ -131,11 +130,22 @@ export default class ReactForm extends React.Component {
 
     // Only submit if there are no errors.
     if (errors.length < 1) {
-      const data = $($form).serializeArray();
+      const array = $($form).serializeArray();
+      // console.log('***ARRAY', array);
+      const data = {};
+      array.map((item) => {
+        data[item.name] = item.value
+      });
+      console.log('***RESULT', data);
+      // const data = array.reduce((acc, curr) => {
+      //   const dog = Object.assign({}, acc, curr);
+      //   return dog;
+      // }, {});
+      // console.log('***DATA', data);
       $.ajax({
         type: "POST",
         url: SUBMIT_URL,
-        data: JSON.stringify(data),
+        data,
         contentType: "application/json"
       });
     }
@@ -145,7 +155,7 @@ export default class ReactForm extends React.Component {
     let errors = [];
     let data_items = this.props.data;
 
-    if(this.props.display_short) {
+    if (this.props.display_short) {
       data_items = this.props.data.filter((i) => i.alternateForm === true);
     }
 
@@ -254,7 +264,8 @@ export default class ReactForm extends React.Component {
             }
             {items}
             <div className='btn-toolbar'>
-              { !this.props.hide_actions &&
+              {
+                !this.props.hide_actions &&
                 <input
                   className='btn btn-school btn-big btn-agree'
                   style={{
@@ -263,9 +274,6 @@ export default class ReactForm extends React.Component {
                     marginRight: '10px'
                   }}
                   type='submit'
-                  onClick={() => {
-
-                  }}
                   value={actionName}
                 />
               }

@@ -44,7 +44,8 @@ let Header = React.createClass({
       <div className={baseClasses}>
         { !this.props.mutable &&
           <div>
-            { this.props.data.pageBreakBefore &&
+            {
+              this.props.data.pageBreakBefore &&
               <div className="preview-page-break">Page Break</div>
             }
             <HeaderBar parent={this.props.parent} editModeOn={this.props.editModeOn} data={this.props.data} onDestroy={this.props._onDestroy} onEdit={this.props.onEdit} static={this.props.data.static} required={this.props.data.required} />
